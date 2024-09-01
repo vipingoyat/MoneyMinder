@@ -1,7 +1,9 @@
 package com.example.moneyminder
 
+import android.widget.Magnifier
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,20 +34,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.moneyminder.data.model.ExpenseEntity
 import com.example.moneyminder.ui.theme.Zinc
 import com.example.moneyminder.viewmodel.HomeViewModel
 import com.example.moneyminder.viewmodel.HomeViewModelFactory
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val viewModel: HomeViewModel =
         HomeViewModelFactory(LocalContext.current).create(HomeViewModel::class.java)
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (nameRow, list, card, topBar) = createRefs()
+            val (nameRow, list, card, topBar, add) = createRefs()
             Image(painter = painterResource(id = R.drawable.background_top),
                 contentDescription = null,
                 modifier = Modifier.constrainAs(topBar) {
@@ -86,16 +91,30 @@ fun HomeScreen() {
                 end.linkTo(parent.end)
             }, expenses, income, balance)
 
-            TransactionList(modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(list) {
-                    top.linkTo(card.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                    height =
-                        Dimension.fillToConstraints      //Jitni bhi space hogi usme apne aap ko settle in kerlega
-                }, list = state.value
+            TransactionList(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(list) {
+                        top.linkTo(card.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(parent.bottom)
+                        height =
+                            Dimension.fillToConstraints      //Jitni bhi space hogi usme apne aap ko settle in kerlega
+                    }, list = state.value, viewModel
+            )
+            Image(
+                painter = painterResource(id = R.drawable.baseline_add_24),
+                contentDescription = null,
+                modifier = Modifier
+                    .constrainAs(add) {
+                        end.linkTo(parent.end)
+                    }
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                        navController.navigate("/add")
+                    }
             )
         }
     }
@@ -158,14 +177,14 @@ fun CardItem(modifier: Modifier, expenses: String, income: String, balance: Stri
 }
 
 @Composable
-fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>) {
+fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, viewModel: HomeViewModel) {
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
         item {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Recent Transaction", fontSize = 20.sp)
+                Text(text = "Transaction History", fontSize = 18.sp)
                 Text(
                     text = "See All",
-                    fontSize = 16.sp,
+                    fontSize = 14.sp,
                     modifier = Modifier.align(Alignment.CenterEnd)
                 )
             }
@@ -174,7 +193,7 @@ fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>) {
             TransactionItem(
                 title = item.title,
                 amount = item.amount.toString(),
-                icon = if (item.type == "Income") R.drawable.arrow_up else R.drawable.arrow_down,
+                icon = viewModel.getItemIcon(item),
                 date = item.date.toString(),
                 color = if (item.type == "Income") Color.Green else Color.Red
             )
@@ -228,5 +247,5 @@ fun TransactionItem(title: String, amount: String, icon: Int, date: String, colo
 @Composable
 @Preview
 fun PreviewHomeScreen() {
-    HomeScreen()
+    HomeScreen(rememberNavController())
 }

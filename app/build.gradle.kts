@@ -79,6 +79,11 @@ dependencies {
     // to use kotlin annotation  processing tool
     kapt("androidx.room:room-compiler:2.6.1")
 
+
+    //C O R O U T I N E
     implementation("androidx.room:room-ktx:2.6.1")
+
+    //N A V I G A T I O N
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
 }

@@ -3,13 +3,14 @@ package com.example.moneyminder.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.moneyminder.R
 import com.example.moneyminder.data.ExpenseDatabase
 import com.example.moneyminder.data.dao.ExpenseDao
 import com.example.moneyminder.data.model.ExpenseEntity
 
 class HomeViewModel(dao: ExpenseDao):ViewModel() {
 
-    val expenses = dao.getAllExpenses()
+    val expenses = dao.getAllExpense()
 
     fun getBalance(list: List<ExpenseEntity>):String{
         var total = 0.0
@@ -44,6 +45,19 @@ class HomeViewModel(dao: ExpenseDao):ViewModel() {
             }
         }
         return "$ ${total}"
+    }
+
+    fun getItemIcon(item:ExpenseEntity):Int{
+        if(item.category=="Paypal"){
+            return R.drawable.icon_paypal
+        }
+        else if(item.category=="Netflix"){
+            return R.drawable.icon_paypal
+        }
+        else if(item.category=="Starbucks"){
+            return R.drawable.icon_starbucks
+        }
+        return R.drawable.icon_upwork
     }
 }
 
