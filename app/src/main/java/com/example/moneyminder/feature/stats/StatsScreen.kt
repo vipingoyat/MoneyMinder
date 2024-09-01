@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.example.moneyminder.R
 import com.example.moneyminder.Utils
+import com.example.moneyminder.data.dao.ExpenseDao
+import com.example.moneyminder.feature.home.TransactionList
 import com.example.moneyminder.ui.theme.Zinc
 import com.example.moneyminder.viewmodel.StatsViewModel
 import com.example.moneyminder.viewmodel.StatsViewModelFactory
@@ -66,10 +69,13 @@ fun StatsScreen(navController: NavController) {
         val viewModel =
             StatsViewModelFactory(navController.context).create(StatsViewModel::class.java)
         val dataState = viewModel.entries.collectAsState(emptyList())
+        val topExpenses = viewModel.topEntries.collectAsState(emptyList())
 //        Log.d("ChartEntries", "Entries for chart: $dateState")
         Column(modifier = Modifier.padding(it)) {
             val entries = viewModel.getEntriesForChart(dataState.value)
             LineChart(entries = entries)
+            Spacer(modifier = Modifier.height(16.dp))
+            TransactionList(Modifier,list = topExpenses.value,"Top Expenses")
         }
     }
 }

@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,6 +35,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.moneyminder.R
+import com.example.moneyminder.Utils
 import com.example.moneyminder.data.model.ExpenseEntity
 import com.example.moneyminder.ui.theme.Zinc
 import com.example.moneyminder.viewmodel.HomeViewModel
@@ -60,7 +60,7 @@ fun HomeScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 56.dp, start = 16.dp, end = 16.dp)
                     .constrainAs(nameRow) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -101,7 +101,7 @@ fun HomeScreen(navController: NavController) {
                         bottom.linkTo(parent.bottom)
                         height =
                             Dimension.fillToConstraints      //Jitni bhi space hogi usme apne aap ko settle in kerlega
-                    }, list = state.value, viewModel
+                    }, list = state.value
             )
             Image(
                 painter = painterResource(id = R.drawable.baseline_add_24),
@@ -112,8 +112,10 @@ fun HomeScreen(navController: NavController) {
                         end.linkTo(parent.end)
                     }
                     .padding(end = 18.dp, bottom = 16.dp)
-                    .size(48.dp)
-                    .clip(CircleShape)
+                    .size(52.dp)
+                    .shadow(8.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(Zinc)
                     .clickable {
                         navController.navigate("/add")
                     }
@@ -179,23 +181,25 @@ fun CardItem(modifier: Modifier, expenses: String, income: String, balance: Stri
 }
 
 @Composable
-fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, viewModel: HomeViewModel) {
+fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, title: String="Transaction History") {
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
         item {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Transaction History", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-                Text(
-                    text = "See All",
-                    fontSize = 14.sp,
-                    modifier = Modifier.align(Alignment.CenterEnd)
-                )
+                Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+                if(title=="Transaction History"){
+                    Text(
+                        text = "See All",
+                        fontSize = 14.sp,
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                    )
+                }
             }
         }
         items(list) { item ->
             TransactionItem(
                 title = item.title,
                 amount = item.amount.toString(),
-                icon = viewModel.getItemIcon(item),
+                icon = Utils.getItemIcon(item),
                 date = item.date,
                 color = if (item.type == "Income") Color.Green else Color.Red
             )

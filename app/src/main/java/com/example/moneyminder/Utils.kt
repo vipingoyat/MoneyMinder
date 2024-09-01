@@ -1,5 +1,6 @@
 package com.example.moneyminder
 
+import com.example.moneyminder.data.model.ExpenseEntity
 import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -36,6 +37,18 @@ object Utils {
         }
         println("Today is $date")
         return date.time
+    }
+    fun getItemIcon(item: ExpenseEntity):Int{
+        if(item.category=="Paypal"){
+            return R.drawable.icon_paypal
+        }
+        else if(item.category=="Netflix"){
+            return R.drawable.icon_paypal
+        }
+        else if(item.category=="Starbucks"){
+            return R.drawable.icon_starbucks
+        }
+        return R.drawable.icon_upwork
     }
 
     fun formatCurrency(amount: Double, locale: Locale = Locale.US): String {

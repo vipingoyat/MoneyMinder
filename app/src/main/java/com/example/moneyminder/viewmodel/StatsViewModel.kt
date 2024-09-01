@@ -15,6 +15,7 @@ import java.security.KeyStore
 
 class StatsViewModel(dao: ExpenseDao) : ViewModel() {
     val entries = dao.getAllExpenseByDate()
+    val topEntries = dao.getTopExpenses()
     fun getEntriesForChart(entries: List<ExpenseSummary>): List<Entry> {
         val list = mutableListOf<Entry>()
         for (entry in entries) {

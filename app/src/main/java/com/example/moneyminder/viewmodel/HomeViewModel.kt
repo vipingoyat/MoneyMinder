@@ -47,19 +47,6 @@ class HomeViewModel(dao: ExpenseDao):ViewModel() {
         }
         return "$ ${Utils.formattoDecimalValue(total)}"
     }
-
-    fun getItemIcon(item:ExpenseEntity):Int{
-        if(item.category=="Paypal"){
-            return R.drawable.icon_paypal
-        }
-        else if(item.category=="Netflix"){
-            return R.drawable.icon_paypal
-        }
-        else if(item.category=="Starbucks"){
-            return R.drawable.icon_starbucks
-        }
-        return R.drawable.icon_upwork
-    }
 }
 
 

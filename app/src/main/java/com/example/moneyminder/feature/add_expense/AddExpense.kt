@@ -72,7 +72,7 @@ fun AddExpense(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 40.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 20.dp, start = 16.dp, end = 16.dp)
                     .constrainAs(nameRow) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -90,7 +90,9 @@ fun AddExpense(navController: NavController) {
                 )
                 Image(
                     painter = painterResource(id = R.drawable.icon_back), contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterStart)
+                    modifier = Modifier.align(Alignment.CenterStart).clickable {
+                        navController.navigateUp()
+                    }
                 )
 
                 Image(
@@ -101,7 +103,7 @@ fun AddExpense(navController: NavController) {
                 )
             }
             DataForm(modifier = Modifier
-                .padding(top = 50.dp)
+                .padding(top = 25.dp)
                 .constrainAs(card) {
                     top.linkTo(nameRow.bottom)
                     start.linkTo(parent.start)
@@ -187,6 +189,7 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity) -> Un
                 disabledBorderColor = Color.Black,
                 disabledTextColor = Color.Black
             )
+
         )
         //Dropdown
         Spacer(modifier = Modifier.size(16.dp))
@@ -218,7 +221,6 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity) -> Un
                 onAddExpenseClick(model)
             },
             modifier = Modifier
-                .clip(RoundedCornerShape(2.dp))
                 .fillMaxWidth()
                 .background(Color.White)
         ) {
