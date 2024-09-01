@@ -69,6 +69,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
 
     // R O O M   D A T A B A S E
@@ -85,5 +87,9 @@ dependencies {
 
     //N A V I G A T I O N
     implementation("androidx.navigation:navigation-compose:2.7.7")
+
+
+    //MP Android Chart
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }

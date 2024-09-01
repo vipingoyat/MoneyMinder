@@ -1,4 +1,4 @@
-package com.example.moneyminder
+package com.example.moneyminder.feature.add_expense
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -44,7 +45,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import androidx.room.Entity
+import com.example.moneyminder.R
+import com.example.moneyminder.Utils
 import com.example.moneyminder.data.model.ExpenseEntity
 import com.example.moneyminder.viewmodel.AddExpenseViewModel
 import com.example.moneyminder.viewmodel.AddExpenseViewModelFactory
@@ -59,7 +61,7 @@ fun AddExpense(navController: NavController) {
         modifier = Modifier.fillMaxSize()
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (nameRow, list, card, topBar) = createRefs()
+            val (nameRow, card, topBar) = createRefs()
             Image(painter = painterResource(id = R.drawable.background_top),
                 contentDescription = null,
                 modifier = Modifier.constrainAs(topBar) {
@@ -70,7 +72,7 @@ fun AddExpense(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 60.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 40.dp, start = 16.dp, end = 16.dp)
                     .constrainAs(nameRow) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -79,7 +81,7 @@ fun AddExpense(navController: NavController) {
             ) {
                 Text(
                     text = "Add Expense",
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     modifier = Modifier
                         .align(Alignment.Center)
                         .padding(16.dp),
@@ -87,7 +89,7 @@ fun AddExpense(navController: NavController) {
                     color = Color.White
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.icon), contentDescription = null,
+                    painter = painterResource(id = R.drawable.icon_back), contentDescription = null,
                     modifier = Modifier.align(Alignment.CenterStart)
                 )
 
@@ -153,14 +155,22 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity) -> Un
         OutlinedTextField(
             value = name.value, onValueChange = { name.value = it }, modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp)
+                .padding(top = 4.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledBorderColor = Color.Black,
+                disabledTextColor = Color.Black
+            )
         )
         Spacer(modifier = Modifier.size(16.dp))
         Text(text = "Amount", color = Color.DarkGray, fontSize = 14.sp)
         OutlinedTextField(
             value = amount.value, onValueChange = { amount.value = it }, modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp)
+                .padding(top = 4.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledBorderColor = Color.Black,
+                disabledTextColor = Color.Black
+            )
         )
         //Date
         Spacer(modifier = Modifier.size(16.dp))
@@ -172,7 +182,11 @@ fun DataForm(modifier: Modifier, onAddExpenseClick: (model: ExpenseEntity) -> Un
                 .fillMaxWidth()
                 .clickable { dateDialogVisibility.value = true }
                 .padding(top = 4.dp),
-            enabled = false
+            enabled = false,
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledBorderColor = Color.Black,
+                disabledTextColor = Color.Black
+            )
         )
         //Dropdown
         Spacer(modifier = Modifier.size(16.dp))

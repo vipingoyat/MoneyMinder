@@ -1,6 +1,5 @@
-package com.example.moneyminder
+package com.example.moneyminder.feature.home
 
-import android.widget.Magnifier
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +35,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.moneyminder.R
 import com.example.moneyminder.data.model.ExpenseEntity
 import com.example.moneyminder.ui.theme.Zinc
 import com.example.moneyminder.viewmodel.HomeViewModel
@@ -60,7 +60,7 @@ fun HomeScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 64.dp, start = 16.dp, end = 16.dp)
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp)
                     .constrainAs(nameRow) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -108,8 +108,10 @@ fun HomeScreen(navController: NavController) {
                 contentDescription = null,
                 modifier = Modifier
                     .constrainAs(add) {
+                        bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
                     }
+                    .padding(end = 18.dp, bottom = 16.dp)
                     .size(48.dp)
                     .clip(CircleShape)
                     .clickable {
@@ -181,7 +183,7 @@ fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, viewModel: Ho
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp)) {
         item {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Transaction History", fontSize = 18.sp)
+                Text(text = "Transaction History", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                 Text(
                     text = "See All",
                     fontSize = 14.sp,
@@ -194,7 +196,7 @@ fun TransactionList(modifier: Modifier, list: List<ExpenseEntity>, viewModel: Ho
                 title = item.title,
                 amount = item.amount.toString(),
                 icon = viewModel.getItemIcon(item),
-                date = item.date.toString(),
+                date = item.date,
                 color = if (item.type == "Income") Color.Green else Color.Red
             )
         }

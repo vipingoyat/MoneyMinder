@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.moneyminder.R
+import com.example.moneyminder.Utils
 import com.example.moneyminder.data.ExpenseDatabase
 import com.example.moneyminder.data.dao.ExpenseDao
 import com.example.moneyminder.data.model.ExpenseEntity
@@ -22,7 +23,7 @@ class HomeViewModel(dao: ExpenseDao):ViewModel() {
                 total-=it.amount
             }
         }
-        return "$ ${total}"
+        return "$ ${Utils.formattoDecimalValue(total)}"
     }
 
     fun getTotalExpense(list: List<ExpenseEntity>):String{
@@ -32,7 +33,7 @@ class HomeViewModel(dao: ExpenseDao):ViewModel() {
                 total += it.amount
             }
         }
-        return "$ ${total}"
+        return "$ ${Utils.formattoDecimalValue(total)}"
     }
     fun getTotalIncome(list: List<ExpenseEntity>):String{
         var total = 0.0
@@ -44,7 +45,7 @@ class HomeViewModel(dao: ExpenseDao):ViewModel() {
                 total-=it.amount
             }
         }
-        return "$ ${total}"
+        return "$ ${Utils.formattoDecimalValue(total)}"
     }
 
     fun getItemIcon(item:ExpenseEntity):Int{
